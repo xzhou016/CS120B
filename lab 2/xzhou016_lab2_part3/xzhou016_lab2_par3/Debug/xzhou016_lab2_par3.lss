@@ -1,0 +1,640 @@
+
+xzhou016_lab2_par3.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000436  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00000436  000004aa  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .comment      00000030  00000000  00000000  000004aa  2**0
+                  CONTENTS, READONLY
+  3 .debug_aranges 00000030  00000000  00000000  000004da  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00000101  00000000  00000000  0000050a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_abbrev 0000007e  00000000  00000000  0000060b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_line   0000013f  00000000  00000000  00000689  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  0000007c  00000000  00000000  000007c8  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_str    00000131  00000000  00000000  00000844  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_loc    000000e5  00000000  00000000  00000975  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 00000020  00000000  00000000  00000a5a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 84 00 	call	0x108	; 0x108 <main>
+  64:	0c 94 19 02 	jmp	0x432	; 0x432 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <SetBit>:
+
+
+#include <avr/io.h>
+
+// Bit-access function
+unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b) {
+  6c:	cf 93       	push	r28
+  6e:	df 93       	push	r29
+  70:	00 d0       	rcall	.+0      	; 0x72 <SetBit+0x6>
+  72:	1f 92       	push	r1
+  74:	cd b7       	in	r28, 0x3d	; 61
+  76:	de b7       	in	r29, 0x3e	; 62
+  78:	89 83       	std	Y+1, r24	; 0x01
+  7a:	6a 83       	std	Y+2, r22	; 0x02
+  7c:	4b 83       	std	Y+3, r20	; 0x03
+	return (b ? x | (0x01 << k) : x & ~(0x01 << k));
+  7e:	8b 81       	ldd	r24, Y+3	; 0x03
+  80:	88 23       	and	r24, r24
+  82:	79 f0       	breq	.+30     	; 0xa2 <SetBit+0x36>
+  84:	8a 81       	ldd	r24, Y+2	; 0x02
+  86:	28 2f       	mov	r18, r24
+  88:	30 e0       	ldi	r19, 0x00	; 0
+  8a:	81 e0       	ldi	r24, 0x01	; 1
+  8c:	90 e0       	ldi	r25, 0x00	; 0
+  8e:	02 2e       	mov	r0, r18
+  90:	02 c0       	rjmp	.+4      	; 0x96 <SetBit+0x2a>
+  92:	88 0f       	add	r24, r24
+  94:	99 1f       	adc	r25, r25
+  96:	0a 94       	dec	r0
+  98:	e2 f7       	brpl	.-8      	; 0x92 <SetBit+0x26>
+  9a:	98 2f       	mov	r25, r24
+  9c:	89 81       	ldd	r24, Y+1	; 0x01
+  9e:	89 2b       	or	r24, r25
+  a0:	0f c0       	rjmp	.+30     	; 0xc0 <SetBit+0x54>
+  a2:	8a 81       	ldd	r24, Y+2	; 0x02
+  a4:	28 2f       	mov	r18, r24
+  a6:	30 e0       	ldi	r19, 0x00	; 0
+  a8:	81 e0       	ldi	r24, 0x01	; 1
+  aa:	90 e0       	ldi	r25, 0x00	; 0
+  ac:	02 2e       	mov	r0, r18
+  ae:	02 c0       	rjmp	.+4      	; 0xb4 <SetBit+0x48>
+  b0:	88 0f       	add	r24, r24
+  b2:	99 1f       	adc	r25, r25
+  b4:	0a 94       	dec	r0
+  b6:	e2 f7       	brpl	.-8      	; 0xb0 <SetBit+0x44>
+  b8:	98 2f       	mov	r25, r24
+  ba:	90 95       	com	r25
+  bc:	89 81       	ldd	r24, Y+1	; 0x01
+  be:	89 23       	and	r24, r25
+}
+  c0:	0f 90       	pop	r0
+  c2:	0f 90       	pop	r0
+  c4:	0f 90       	pop	r0
+  c6:	df 91       	pop	r29
+  c8:	cf 91       	pop	r28
+  ca:	08 95       	ret
+
+000000cc <GetBit>:
+unsigned char GetBit(unsigned char x, unsigned char k) {
+  cc:	cf 93       	push	r28
+  ce:	df 93       	push	r29
+  d0:	00 d0       	rcall	.+0      	; 0xd2 <GetBit+0x6>
+  d2:	cd b7       	in	r28, 0x3d	; 61
+  d4:	de b7       	in	r29, 0x3e	; 62
+  d6:	89 83       	std	Y+1, r24	; 0x01
+  d8:	6a 83       	std	Y+2, r22	; 0x02
+	return ((x & (0x01 << k)) != 0);
+  da:	89 81       	ldd	r24, Y+1	; 0x01
+  dc:	88 2f       	mov	r24, r24
+  de:	90 e0       	ldi	r25, 0x00	; 0
+  e0:	2a 81       	ldd	r18, Y+2	; 0x02
+  e2:	22 2f       	mov	r18, r18
+  e4:	30 e0       	ldi	r19, 0x00	; 0
+  e6:	02 c0       	rjmp	.+4      	; 0xec <GetBit+0x20>
+  e8:	95 95       	asr	r25
+  ea:	87 95       	ror	r24
+  ec:	2a 95       	dec	r18
+  ee:	e2 f7       	brpl	.-8      	; 0xe8 <GetBit+0x1c>
+  f0:	81 70       	andi	r24, 0x01	; 1
+  f2:	99 27       	eor	r25, r25
+  f4:	21 e0       	ldi	r18, 0x01	; 1
+  f6:	00 97       	sbiw	r24, 0x00	; 0
+  f8:	09 f4       	brne	.+2      	; 0xfc <GetBit+0x30>
+  fa:	20 e0       	ldi	r18, 0x00	; 0
+  fc:	82 2f       	mov	r24, r18
+}
+  fe:	0f 90       	pop	r0
+ 100:	0f 90       	pop	r0
+ 102:	df 91       	pop	r29
+ 104:	cf 91       	pop	r28
+ 106:	08 95       	ret
+
+00000108 <main>:
+
+int main(void)
+{
+ 108:	0f 93       	push	r16
+ 10a:	1f 93       	push	r17
+ 10c:	cf 93       	push	r28
+ 10e:	df 93       	push	r29
+ 110:	cd b7       	in	r28, 0x3d	; 61
+ 112:	de b7       	in	r29, 0x3e	; 62
+	DDRA = 0x00; PORTA = 0x00;
+ 114:	8a e3       	ldi	r24, 0x3A	; 58
+ 116:	90 e0       	ldi	r25, 0x00	; 0
+ 118:	fc 01       	movw	r30, r24
+ 11a:	10 82       	st	Z, r1
+ 11c:	8b e3       	ldi	r24, 0x3B	; 59
+ 11e:	90 e0       	ldi	r25, 0x00	; 0
+ 120:	fc 01       	movw	r30, r24
+ 122:	10 82       	st	Z, r1
+
+	DDRC = 0xFF; PORTC = 0x00;
+ 124:	84 e3       	ldi	r24, 0x34	; 52
+ 126:	90 e0       	ldi	r25, 0x00	; 0
+ 128:	2f ef       	ldi	r18, 0xFF	; 255
+ 12a:	fc 01       	movw	r30, r24
+ 12c:	20 83       	st	Z, r18
+ 12e:	85 e3       	ldi	r24, 0x35	; 53
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	fc 01       	movw	r30, r24
+ 134:	10 82       	st	Z, r1
+
+	
+	
+	while(1)
+	{
+		if (((PINA & 0x0F) > 0x0C) && ((PINA & 0x0F) <= 0x0F))
+ 136:	89 e3       	ldi	r24, 0x39	; 57
+ 138:	90 e0       	ldi	r25, 0x00	; 0
+ 13a:	fc 01       	movw	r30, r24
+ 13c:	80 81       	ld	r24, Z
+ 13e:	88 2f       	mov	r24, r24
+ 140:	90 e0       	ldi	r25, 0x00	; 0
+ 142:	8f 70       	andi	r24, 0x0F	; 15
+ 144:	99 27       	eor	r25, r25
+ 146:	8d 30       	cpi	r24, 0x0D	; 13
+ 148:	91 05       	cpc	r25, r1
+ 14a:	c4 f0       	brlt	.+48     	; 0x17c <main+0x74>
+ 14c:	89 e3       	ldi	r24, 0x39	; 57
+ 14e:	90 e0       	ldi	r25, 0x00	; 0
+ 150:	fc 01       	movw	r30, r24
+ 152:	80 81       	ld	r24, Z
+ 154:	88 2f       	mov	r24, r24
+ 156:	90 e0       	ldi	r25, 0x00	; 0
+ 158:	8f 70       	andi	r24, 0x0F	; 15
+ 15a:	99 27       	eor	r25, r25
+ 15c:	80 31       	cpi	r24, 0x10	; 16
+ 15e:	91 05       	cpc	r25, r1
+ 160:	6c f4       	brge	.+26     	; 0x17c <main+0x74>
+		{
+			PORTC = SetBit(PINC, 0, 1);	
+ 162:	05 e3       	ldi	r16, 0x35	; 53
+ 164:	10 e0       	ldi	r17, 0x00	; 0
+ 166:	83 e3       	ldi	r24, 0x33	; 51
+ 168:	90 e0       	ldi	r25, 0x00	; 0
+ 16a:	fc 01       	movw	r30, r24
+ 16c:	80 81       	ld	r24, Z
+ 16e:	41 e0       	ldi	r20, 0x01	; 1
+ 170:	60 e0       	ldi	r22, 0x00	; 0
+ 172:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 176:	f8 01       	movw	r30, r16
+ 178:	80 83       	st	Z, r24
+ 17a:	0c c0       	rjmp	.+24     	; 0x194 <main+0x8c>
+		}else
+		{
+			PORTC = SetBit(PINC, 0, 0);
+ 17c:	05 e3       	ldi	r16, 0x35	; 53
+ 17e:	10 e0       	ldi	r17, 0x00	; 0
+ 180:	83 e3       	ldi	r24, 0x33	; 51
+ 182:	90 e0       	ldi	r25, 0x00	; 0
+ 184:	fc 01       	movw	r30, r24
+ 186:	80 81       	ld	r24, Z
+ 188:	40 e0       	ldi	r20, 0x00	; 0
+ 18a:	60 e0       	ldi	r22, 0x00	; 0
+ 18c:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 190:	f8 01       	movw	r30, r16
+ 192:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x09) && ((PINA & 0x0F) <= 0x0F))
+ 194:	89 e3       	ldi	r24, 0x39	; 57
+ 196:	90 e0       	ldi	r25, 0x00	; 0
+ 198:	fc 01       	movw	r30, r24
+ 19a:	80 81       	ld	r24, Z
+ 19c:	88 2f       	mov	r24, r24
+ 19e:	90 e0       	ldi	r25, 0x00	; 0
+ 1a0:	8f 70       	andi	r24, 0x0F	; 15
+ 1a2:	99 27       	eor	r25, r25
+ 1a4:	8a 30       	cpi	r24, 0x0A	; 10
+ 1a6:	91 05       	cpc	r25, r1
+ 1a8:	c4 f0       	brlt	.+48     	; 0x1da <main+0xd2>
+ 1aa:	89 e3       	ldi	r24, 0x39	; 57
+ 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 1ae:	fc 01       	movw	r30, r24
+ 1b0:	80 81       	ld	r24, Z
+ 1b2:	88 2f       	mov	r24, r24
+ 1b4:	90 e0       	ldi	r25, 0x00	; 0
+ 1b6:	8f 70       	andi	r24, 0x0F	; 15
+ 1b8:	99 27       	eor	r25, r25
+ 1ba:	80 31       	cpi	r24, 0x10	; 16
+ 1bc:	91 05       	cpc	r25, r1
+ 1be:	6c f4       	brge	.+26     	; 0x1da <main+0xd2>
+		{
+			PORTC = SetBit(PINC, 1, 1);
+ 1c0:	05 e3       	ldi	r16, 0x35	; 53
+ 1c2:	10 e0       	ldi	r17, 0x00	; 0
+ 1c4:	83 e3       	ldi	r24, 0x33	; 51
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	fc 01       	movw	r30, r24
+ 1ca:	80 81       	ld	r24, Z
+ 1cc:	41 e0       	ldi	r20, 0x01	; 1
+ 1ce:	61 e0       	ldi	r22, 0x01	; 1
+ 1d0:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 1d4:	f8 01       	movw	r30, r16
+ 1d6:	80 83       	st	Z, r24
+ 1d8:	0c c0       	rjmp	.+24     	; 0x1f2 <main+0xea>
+							
+		}else
+		{
+			PORTC = SetBit(PINC, 1, 0);
+ 1da:	05 e3       	ldi	r16, 0x35	; 53
+ 1dc:	10 e0       	ldi	r17, 0x00	; 0
+ 1de:	83 e3       	ldi	r24, 0x33	; 51
+ 1e0:	90 e0       	ldi	r25, 0x00	; 0
+ 1e2:	fc 01       	movw	r30, r24
+ 1e4:	80 81       	ld	r24, Z
+ 1e6:	40 e0       	ldi	r20, 0x00	; 0
+ 1e8:	61 e0       	ldi	r22, 0x01	; 1
+ 1ea:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 1ee:	f8 01       	movw	r30, r16
+ 1f0:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x06) && ((PINA & 0x0F) <= 0x0F))
+ 1f2:	89 e3       	ldi	r24, 0x39	; 57
+ 1f4:	90 e0       	ldi	r25, 0x00	; 0
+ 1f6:	fc 01       	movw	r30, r24
+ 1f8:	80 81       	ld	r24, Z
+ 1fa:	88 2f       	mov	r24, r24
+ 1fc:	90 e0       	ldi	r25, 0x00	; 0
+ 1fe:	8f 70       	andi	r24, 0x0F	; 15
+ 200:	99 27       	eor	r25, r25
+ 202:	87 30       	cpi	r24, 0x07	; 7
+ 204:	91 05       	cpc	r25, r1
+ 206:	c4 f0       	brlt	.+48     	; 0x238 <main+0x130>
+ 208:	89 e3       	ldi	r24, 0x39	; 57
+ 20a:	90 e0       	ldi	r25, 0x00	; 0
+ 20c:	fc 01       	movw	r30, r24
+ 20e:	80 81       	ld	r24, Z
+ 210:	88 2f       	mov	r24, r24
+ 212:	90 e0       	ldi	r25, 0x00	; 0
+ 214:	8f 70       	andi	r24, 0x0F	; 15
+ 216:	99 27       	eor	r25, r25
+ 218:	80 31       	cpi	r24, 0x10	; 16
+ 21a:	91 05       	cpc	r25, r1
+ 21c:	6c f4       	brge	.+26     	; 0x238 <main+0x130>
+		{
+			PORTC = SetBit(PINC, 2, 1);
+ 21e:	05 e3       	ldi	r16, 0x35	; 53
+ 220:	10 e0       	ldi	r17, 0x00	; 0
+ 222:	83 e3       	ldi	r24, 0x33	; 51
+ 224:	90 e0       	ldi	r25, 0x00	; 0
+ 226:	fc 01       	movw	r30, r24
+ 228:	80 81       	ld	r24, Z
+ 22a:	41 e0       	ldi	r20, 0x01	; 1
+ 22c:	62 e0       	ldi	r22, 0x02	; 2
+ 22e:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 232:	f8 01       	movw	r30, r16
+ 234:	80 83       	st	Z, r24
+ 236:	0c c0       	rjmp	.+24     	; 0x250 <main+0x148>
+						
+		}else
+		{
+			PORTC = SetBit(PORTC, 2, 0);
+ 238:	05 e3       	ldi	r16, 0x35	; 53
+ 23a:	10 e0       	ldi	r17, 0x00	; 0
+ 23c:	85 e3       	ldi	r24, 0x35	; 53
+ 23e:	90 e0       	ldi	r25, 0x00	; 0
+ 240:	fc 01       	movw	r30, r24
+ 242:	80 81       	ld	r24, Z
+ 244:	40 e0       	ldi	r20, 0x00	; 0
+ 246:	62 e0       	ldi	r22, 0x02	; 2
+ 248:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 24c:	f8 01       	movw	r30, r16
+ 24e:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x04) && ((PINA & 0x0F) <= 0x0F))
+ 250:	89 e3       	ldi	r24, 0x39	; 57
+ 252:	90 e0       	ldi	r25, 0x00	; 0
+ 254:	fc 01       	movw	r30, r24
+ 256:	80 81       	ld	r24, Z
+ 258:	88 2f       	mov	r24, r24
+ 25a:	90 e0       	ldi	r25, 0x00	; 0
+ 25c:	8f 70       	andi	r24, 0x0F	; 15
+ 25e:	99 27       	eor	r25, r25
+ 260:	85 30       	cpi	r24, 0x05	; 5
+ 262:	91 05       	cpc	r25, r1
+ 264:	c4 f0       	brlt	.+48     	; 0x296 <main+0x18e>
+ 266:	89 e3       	ldi	r24, 0x39	; 57
+ 268:	90 e0       	ldi	r25, 0x00	; 0
+ 26a:	fc 01       	movw	r30, r24
+ 26c:	80 81       	ld	r24, Z
+ 26e:	88 2f       	mov	r24, r24
+ 270:	90 e0       	ldi	r25, 0x00	; 0
+ 272:	8f 70       	andi	r24, 0x0F	; 15
+ 274:	99 27       	eor	r25, r25
+ 276:	80 31       	cpi	r24, 0x10	; 16
+ 278:	91 05       	cpc	r25, r1
+ 27a:	6c f4       	brge	.+26     	; 0x296 <main+0x18e>
+		{
+			PORTC = SetBit(PINC, 3, 1);
+ 27c:	05 e3       	ldi	r16, 0x35	; 53
+ 27e:	10 e0       	ldi	r17, 0x00	; 0
+ 280:	83 e3       	ldi	r24, 0x33	; 51
+ 282:	90 e0       	ldi	r25, 0x00	; 0
+ 284:	fc 01       	movw	r30, r24
+ 286:	80 81       	ld	r24, Z
+ 288:	41 e0       	ldi	r20, 0x01	; 1
+ 28a:	63 e0       	ldi	r22, 0x03	; 3
+ 28c:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 290:	f8 01       	movw	r30, r16
+ 292:	80 83       	st	Z, r24
+ 294:	0c c0       	rjmp	.+24     	; 0x2ae <main+0x1a6>
+					
+		}else
+		{
+			PORTC = SetBit(PINC, 3, 0);
+ 296:	05 e3       	ldi	r16, 0x35	; 53
+ 298:	10 e0       	ldi	r17, 0x00	; 0
+ 29a:	83 e3       	ldi	r24, 0x33	; 51
+ 29c:	90 e0       	ldi	r25, 0x00	; 0
+ 29e:	fc 01       	movw	r30, r24
+ 2a0:	80 81       	ld	r24, Z
+ 2a2:	40 e0       	ldi	r20, 0x00	; 0
+ 2a4:	63 e0       	ldi	r22, 0x03	; 3
+ 2a6:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 2aa:	f8 01       	movw	r30, r16
+ 2ac:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x02) && ((PINA & 0x0F) <= 0x0F))
+ 2ae:	89 e3       	ldi	r24, 0x39	; 57
+ 2b0:	90 e0       	ldi	r25, 0x00	; 0
+ 2b2:	fc 01       	movw	r30, r24
+ 2b4:	80 81       	ld	r24, Z
+ 2b6:	88 2f       	mov	r24, r24
+ 2b8:	90 e0       	ldi	r25, 0x00	; 0
+ 2ba:	8f 70       	andi	r24, 0x0F	; 15
+ 2bc:	99 27       	eor	r25, r25
+ 2be:	83 30       	cpi	r24, 0x03	; 3
+ 2c0:	91 05       	cpc	r25, r1
+ 2c2:	c4 f0       	brlt	.+48     	; 0x2f4 <main+0x1ec>
+ 2c4:	89 e3       	ldi	r24, 0x39	; 57
+ 2c6:	90 e0       	ldi	r25, 0x00	; 0
+ 2c8:	fc 01       	movw	r30, r24
+ 2ca:	80 81       	ld	r24, Z
+ 2cc:	88 2f       	mov	r24, r24
+ 2ce:	90 e0       	ldi	r25, 0x00	; 0
+ 2d0:	8f 70       	andi	r24, 0x0F	; 15
+ 2d2:	99 27       	eor	r25, r25
+ 2d4:	80 31       	cpi	r24, 0x10	; 16
+ 2d6:	91 05       	cpc	r25, r1
+ 2d8:	6c f4       	brge	.+26     	; 0x2f4 <main+0x1ec>
+		{
+			PORTC = SetBit(PINC, 4, 1);
+ 2da:	05 e3       	ldi	r16, 0x35	; 53
+ 2dc:	10 e0       	ldi	r17, 0x00	; 0
+ 2de:	83 e3       	ldi	r24, 0x33	; 51
+ 2e0:	90 e0       	ldi	r25, 0x00	; 0
+ 2e2:	fc 01       	movw	r30, r24
+ 2e4:	80 81       	ld	r24, Z
+ 2e6:	41 e0       	ldi	r20, 0x01	; 1
+ 2e8:	64 e0       	ldi	r22, 0x04	; 4
+ 2ea:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 2ee:	f8 01       	movw	r30, r16
+ 2f0:	80 83       	st	Z, r24
+ 2f2:	0c c0       	rjmp	.+24     	; 0x30c <main+0x204>
+		}else
+		{
+			PORTC = SetBit(PINC, 4, 0);
+ 2f4:	05 e3       	ldi	r16, 0x35	; 53
+ 2f6:	10 e0       	ldi	r17, 0x00	; 0
+ 2f8:	83 e3       	ldi	r24, 0x33	; 51
+ 2fa:	90 e0       	ldi	r25, 0x00	; 0
+ 2fc:	fc 01       	movw	r30, r24
+ 2fe:	80 81       	ld	r24, Z
+ 300:	40 e0       	ldi	r20, 0x00	; 0
+ 302:	64 e0       	ldi	r22, 0x04	; 4
+ 304:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 308:	f8 01       	movw	r30, r16
+ 30a:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x00) && ((PINA & 0x0F) <= 0x0F))
+ 30c:	89 e3       	ldi	r24, 0x39	; 57
+ 30e:	90 e0       	ldi	r25, 0x00	; 0
+ 310:	fc 01       	movw	r30, r24
+ 312:	80 81       	ld	r24, Z
+ 314:	88 2f       	mov	r24, r24
+ 316:	90 e0       	ldi	r25, 0x00	; 0
+ 318:	8f 70       	andi	r24, 0x0F	; 15
+ 31a:	99 27       	eor	r25, r25
+ 31c:	18 16       	cp	r1, r24
+ 31e:	19 06       	cpc	r1, r25
+ 320:	c4 f4       	brge	.+48     	; 0x352 <main+0x24a>
+ 322:	89 e3       	ldi	r24, 0x39	; 57
+ 324:	90 e0       	ldi	r25, 0x00	; 0
+ 326:	fc 01       	movw	r30, r24
+ 328:	80 81       	ld	r24, Z
+ 32a:	88 2f       	mov	r24, r24
+ 32c:	90 e0       	ldi	r25, 0x00	; 0
+ 32e:	8f 70       	andi	r24, 0x0F	; 15
+ 330:	99 27       	eor	r25, r25
+ 332:	80 31       	cpi	r24, 0x10	; 16
+ 334:	91 05       	cpc	r25, r1
+ 336:	6c f4       	brge	.+26     	; 0x352 <main+0x24a>
+		{
+			PORTC = SetBit(PINC, 5, 1);
+ 338:	05 e3       	ldi	r16, 0x35	; 53
+ 33a:	10 e0       	ldi	r17, 0x00	; 0
+ 33c:	83 e3       	ldi	r24, 0x33	; 51
+ 33e:	90 e0       	ldi	r25, 0x00	; 0
+ 340:	fc 01       	movw	r30, r24
+ 342:	80 81       	ld	r24, Z
+ 344:	41 e0       	ldi	r20, 0x01	; 1
+ 346:	65 e0       	ldi	r22, 0x05	; 5
+ 348:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 34c:	f8 01       	movw	r30, r16
+ 34e:	80 83       	st	Z, r24
+ 350:	0c c0       	rjmp	.+24     	; 0x36a <main+0x262>
+		}else
+		{
+			PORTC = SetBit(PINC, 5, 0);
+ 352:	05 e3       	ldi	r16, 0x35	; 53
+ 354:	10 e0       	ldi	r17, 0x00	; 0
+ 356:	83 e3       	ldi	r24, 0x33	; 51
+ 358:	90 e0       	ldi	r25, 0x00	; 0
+ 35a:	fc 01       	movw	r30, r24
+ 35c:	80 81       	ld	r24, Z
+ 35e:	40 e0       	ldi	r20, 0x00	; 0
+ 360:	65 e0       	ldi	r22, 0x05	; 5
+ 362:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 366:	f8 01       	movw	r30, r16
+ 368:	80 83       	st	Z, r24
+		}
+		
+		if (((PINA & 0x0F) > 0x00) && ((PINA & 0x0F) <= 0x04))
+ 36a:	89 e3       	ldi	r24, 0x39	; 57
+ 36c:	90 e0       	ldi	r25, 0x00	; 0
+ 36e:	fc 01       	movw	r30, r24
+ 370:	80 81       	ld	r24, Z
+ 372:	88 2f       	mov	r24, r24
+ 374:	90 e0       	ldi	r25, 0x00	; 0
+ 376:	8f 70       	andi	r24, 0x0F	; 15
+ 378:	99 27       	eor	r25, r25
+ 37a:	18 16       	cp	r1, r24
+ 37c:	19 06       	cpc	r1, r25
+ 37e:	c4 f4       	brge	.+48     	; 0x3b0 <main+0x2a8>
+ 380:	89 e3       	ldi	r24, 0x39	; 57
+ 382:	90 e0       	ldi	r25, 0x00	; 0
+ 384:	fc 01       	movw	r30, r24
+ 386:	80 81       	ld	r24, Z
+ 388:	88 2f       	mov	r24, r24
+ 38a:	90 e0       	ldi	r25, 0x00	; 0
+ 38c:	8f 70       	andi	r24, 0x0F	; 15
+ 38e:	99 27       	eor	r25, r25
+ 390:	85 30       	cpi	r24, 0x05	; 5
+ 392:	91 05       	cpc	r25, r1
+ 394:	6c f4       	brge	.+26     	; 0x3b0 <main+0x2a8>
+		{
+			PORTC = SetBit(PINC, 6, 1);
+ 396:	05 e3       	ldi	r16, 0x35	; 53
+ 398:	10 e0       	ldi	r17, 0x00	; 0
+ 39a:	83 e3       	ldi	r24, 0x33	; 51
+ 39c:	90 e0       	ldi	r25, 0x00	; 0
+ 39e:	fc 01       	movw	r30, r24
+ 3a0:	80 81       	ld	r24, Z
+ 3a2:	41 e0       	ldi	r20, 0x01	; 1
+ 3a4:	66 e0       	ldi	r22, 0x06	; 6
+ 3a6:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 3aa:	f8 01       	movw	r30, r16
+ 3ac:	80 83       	st	Z, r24
+ 3ae:	0c c0       	rjmp	.+24     	; 0x3c8 <main+0x2c0>
+		}
+		else
+		{
+			PORTC = SetBit(PINC, 6, 0);	
+ 3b0:	05 e3       	ldi	r16, 0x35	; 53
+ 3b2:	10 e0       	ldi	r17, 0x00	; 0
+ 3b4:	83 e3       	ldi	r24, 0x33	; 51
+ 3b6:	90 e0       	ldi	r25, 0x00	; 0
+ 3b8:	fc 01       	movw	r30, r24
+ 3ba:	80 81       	ld	r24, Z
+ 3bc:	40 e0       	ldi	r20, 0x00	; 0
+ 3be:	66 e0       	ldi	r22, 0x06	; 6
+ 3c0:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 3c4:	f8 01       	movw	r30, r16
+ 3c6:	80 83       	st	Z, r24
+		}
+		
+		//driver safety check A.K.A part 3
+		if ((GetBit(PINA, 4) == 0x01) && (GetBit(PINA, 5) == 0x01) && (GetBit(PINA, 6) == 0x00))
+ 3c8:	89 e3       	ldi	r24, 0x39	; 57
+ 3ca:	90 e0       	ldi	r25, 0x00	; 0
+ 3cc:	fc 01       	movw	r30, r24
+ 3ce:	80 81       	ld	r24, Z
+ 3d0:	64 e0       	ldi	r22, 0x04	; 4
+ 3d2:	0e 94 66 00 	call	0xcc	; 0xcc <GetBit>
+ 3d6:	81 30       	cpi	r24, 0x01	; 1
+ 3d8:	f9 f4       	brne	.+62     	; 0x418 <main+0x310>
+ 3da:	89 e3       	ldi	r24, 0x39	; 57
+ 3dc:	90 e0       	ldi	r25, 0x00	; 0
+ 3de:	fc 01       	movw	r30, r24
+ 3e0:	80 81       	ld	r24, Z
+ 3e2:	65 e0       	ldi	r22, 0x05	; 5
+ 3e4:	0e 94 66 00 	call	0xcc	; 0xcc <GetBit>
+ 3e8:	81 30       	cpi	r24, 0x01	; 1
+ 3ea:	b1 f4       	brne	.+44     	; 0x418 <main+0x310>
+ 3ec:	89 e3       	ldi	r24, 0x39	; 57
+ 3ee:	90 e0       	ldi	r25, 0x00	; 0
+ 3f0:	fc 01       	movw	r30, r24
+ 3f2:	80 81       	ld	r24, Z
+ 3f4:	66 e0       	ldi	r22, 0x06	; 6
+ 3f6:	0e 94 66 00 	call	0xcc	; 0xcc <GetBit>
+ 3fa:	88 23       	and	r24, r24
+ 3fc:	69 f4       	brne	.+26     	; 0x418 <main+0x310>
+		{
+			PORTC = SetBit(PINC, 7, 1);
+ 3fe:	05 e3       	ldi	r16, 0x35	; 53
+ 400:	10 e0       	ldi	r17, 0x00	; 0
+ 402:	83 e3       	ldi	r24, 0x33	; 51
+ 404:	90 e0       	ldi	r25, 0x00	; 0
+ 406:	fc 01       	movw	r30, r24
+ 408:	80 81       	ld	r24, Z
+ 40a:	41 e0       	ldi	r20, 0x01	; 1
+ 40c:	67 e0       	ldi	r22, 0x07	; 7
+ 40e:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 412:	f8 01       	movw	r30, r16
+ 414:	80 83       	st	Z, r24
+		}else
+		{
+			PORTC = SetBit(PINC, 7, 0);
+		}
+	}
+ 416:	8f ce       	rjmp	.-738    	; 0x136 <main+0x2e>
+		if ((GetBit(PINA, 4) == 0x01) && (GetBit(PINA, 5) == 0x01) && (GetBit(PINA, 6) == 0x00))
+		{
+			PORTC = SetBit(PINC, 7, 1);
+		}else
+		{
+			PORTC = SetBit(PINC, 7, 0);
+ 418:	05 e3       	ldi	r16, 0x35	; 53
+ 41a:	10 e0       	ldi	r17, 0x00	; 0
+ 41c:	83 e3       	ldi	r24, 0x33	; 51
+ 41e:	90 e0       	ldi	r25, 0x00	; 0
+ 420:	fc 01       	movw	r30, r24
+ 422:	80 81       	ld	r24, Z
+ 424:	40 e0       	ldi	r20, 0x00	; 0
+ 426:	67 e0       	ldi	r22, 0x07	; 7
+ 428:	0e 94 36 00 	call	0x6c	; 0x6c <SetBit>
+ 42c:	f8 01       	movw	r30, r16
+ 42e:	80 83       	st	Z, r24
+		}
+	}
+ 430:	82 ce       	rjmp	.-764    	; 0x136 <main+0x2e>
+
+00000432 <_exit>:
+ 432:	f8 94       	cli
+
+00000434 <__stop_program>:
+ 434:	ff cf       	rjmp	.-2      	; 0x434 <__stop_program>

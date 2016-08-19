@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "xzhou016_lab2_part5", "xzhou_lab2_part5\xzhou016_lab2_part5.cproj", "{FFD9B095-B54C-4BEE-98B8-C13A41C5EEC8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AVR = Debug|AVR
+		Release|AVR = Release|AVR
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FFD9B095-B54C-4BEE-98B8-C13A41C5EEC8}.Debug|AVR.ActiveCfg = Debug|AVR
+		{FFD9B095-B54C-4BEE-98B8-C13A41C5EEC8}.Debug|AVR.Build.0 = Debug|AVR
+		{FFD9B095-B54C-4BEE-98B8-C13A41C5EEC8}.Release|AVR.ActiveCfg = Release|AVR
+		{FFD9B095-B54C-4BEE-98B8-C13A41C5EEC8}.Release|AVR.Build.0 = Release|AVR
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
