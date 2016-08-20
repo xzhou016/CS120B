@@ -11,6 +11,16 @@
 
 unsigned char str_index = 1;
 
+void arrayShift(unsigned char shift)
+{
+	unsigned char temp;
+	for (unsigned char i = shift ; i > 0; i--)
+	{
+		row1[i] = row1[i - 1];
+		row2[i] = row2[i - 1 ];
+	}
+}
+
 enum ObstacleGeneratorSM {OGSM_start, OGSM_generate} ObstacleGeneratorSM;
 int ObstacleGeneratorSM_Tick(int state)
 {
@@ -35,8 +45,7 @@ int ObstacleGeneratorSM_Tick(int state)
 		
 		case OGSM_generate: 
 			//shift data >> 1
-			memmove(&row1[1], &row1[0], str_index);
-			memmove(&row2[1], &row2[0], str_index);
+			arrayShift(str_index);
 			//generate an obstacle then push into first index
 			if ((rand() % object_generate_prob) == 1)
 			{
@@ -64,9 +73,9 @@ int ObstacleGeneratorSM_Tick(int state)
 			//memcpy(display_string, row2, str_index + 1);	
 			
 			//set the last bit to '\0' to complete string
-			if ((row1[15] != '\0' || row2[15] != '\0') && str_index >= 16)
+			if ((row1[16] != '\0' || row2[16] != '\0') && str_index > 17)
 			{
-				row1[15] = '\0'; row2[15] = '\0';
+				row1[16] = '\0'; row2[16] = '\0';
 				str_index = 16;
 			}else str_index++;
 		break;

@@ -29,6 +29,7 @@ QUOTE := "
 ADDITIONAL_DEPENDENCIES:=
 OUTPUT_FILE_DEP:=
 LIB_DEP:=
+LINKER_SCRIPT_DEP:=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := 
@@ -72,6 +73,9 @@ OUTPUT_FILE_DEP:= ./makedep.mk
 
 LIB_DEP+= 
 
+LINKER_SCRIPT_DEP+= 
+
+
 # AVR32/GNU C Compiler
 
 
@@ -80,8 +84,8 @@ LIB_DEP+=
 
 ./%.o: .././%.c
 	@echo Building file: $<
-	@echo Invoking: AVR/GNU C Compiler : 4.8.1
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega1284 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Invoking: AVR/GNU C Compiler : 4.9.2
+	$(QUOTE)D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"D:\Program Files\Atmel\7.0\Packs\atmel\ATmega_DFP\1.0.106\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=atmega1284 -B "D:\Program Files\Atmel\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega1284" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
@@ -107,16 +111,16 @@ endif
 # All Target
 all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 
-$(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP)
+$(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
-	@echo Invoking: AVR/GNU Linker : 4.8.1
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="xzhou016_FinalProjectv2.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=atmega1284  
+	@echo Invoking: AVR/GNU Linker : 4.9.2
+	$(QUOTE)D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="xzhou016_FinalProjectv2.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=atmega1284 -B "D:\Program Files\Atmel\7.0\Packs\atmel\ATmega_DFP\1.0.106\gcc\dev\atmega1284"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.hex"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "xzhou016_FinalProjectv2.elf" > "xzhou016_FinalProjectv2.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.srec"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1056\avr8-gnu-toolchain\bin\avr-size.exe" "xzhou016_FinalProjectv2.elf"
+	"D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.hex"
+	"D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.eep" || exit 0
+	"D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "xzhou016_FinalProjectv2.elf" > "xzhou016_FinalProjectv2.lss"
+	"D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "xzhou016_FinalProjectv2.elf" "xzhou016_FinalProjectv2.srec"
+	"D:\Program Files\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "xzhou016_FinalProjectv2.elf"
 	
 	
 

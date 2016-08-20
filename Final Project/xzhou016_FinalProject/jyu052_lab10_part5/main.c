@@ -13,11 +13,10 @@
 
 //global variables
 //unsigned char front = 0;
-unsigned char display_string[32];
 unsigned char x						= 0x00;
-unsigned char row1[16]				= " ";
-unsigned char row2[16]				= " ";
-unsigned char object_generate_prob	= 6;
+unsigned char row1[17]				= " ";
+unsigned char row2[17]				= " ";
+unsigned char object_generate_prob	= 20;
 //Queue myQ;
 
 //state machines
