@@ -1,7 +1,7 @@
 /*
  * Movement.h
  *
- * Created: 8/19/2016 11:47:17 AM
+ * Created: 8/19/2016 7:05:46 PM
  *  Author: jakex
  */ 
 
@@ -9,7 +9,63 @@
 #ifndef MOVEMENT_H_
 #define MOVEMENT_H_
 
-
+enum MovementSM {M_start, M_wait, M_move, M_moveRelease} MovementSM;
+	
+int Movement_Tick(int state)
+{
+	switch(state)
+	{
+		case M_start:
+			state = M_wait;
+		break;
+		
+		case M_wait:
+			if (GetKeypadKey() != '\0')
+			{
+				state = M_move;
+			} 
+		break;
+		
+		case M_move:
+			state = M_moveRelease;
+		break;
+		
+		case M_moveRelease:
+			if (GetKeypadKey() == '\0')
+			{
+				state = M_wait;
+			}
+		break;
+		
+		default: 
+			state = M_start;
+		break;
+	}
+	
+	switch(state)
+	{
+		case M_start: break;
+		
+		case M_wait: break;
+		
+		case M_move:
+			if (playerPosition = 16 && GetKeypadKey() == 'C')
+			{
+				playerPosition = 32;
+			} 
+			if (playerPosition = 32 && GetKeypadKey() == 'B')
+			{
+				playerPosition = 16;
+			}
+		break;
+		
+		case M_moveRelease: break;
+		
+		default: break;
+	}
+	
+	return state;
+}
 
 
 

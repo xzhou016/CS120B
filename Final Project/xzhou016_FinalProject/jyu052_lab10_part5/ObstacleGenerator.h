@@ -73,10 +73,10 @@ int ObstacleGeneratorSM_Tick(int state)
 			//memcpy(display_string, row2, str_index + 1);	
 			
 			//set the last bit to '\0' to complete string
-			if ((row1[16] != '\0' || row2[16] != '\0') && str_index > 17)
+			if ((row1[15] != '\0' || row2[15] != '\0') && str_index > 16)
 			{
-				row1[16] = '\0'; row2[16] = '\0';
-				str_index = 16;
+				row1[15] = '\0'; row2[15] = '\0';
+				str_index = 15;
 			}else str_index++;
 		break;
 	}

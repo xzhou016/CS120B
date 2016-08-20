@@ -17,12 +17,14 @@ unsigned char x						= 0x00;
 unsigned char row1[17]				= " ";
 unsigned char row2[17]				= " ";
 unsigned char object_generate_prob	= 20;
+unsigned char playerPosition		= 16;
 //Queue myQ;
 
 //state machines
 #include "ObstacleGenerator.h"
 #include "KeypadReadSM.h"
 #include "Display.h"
+#include "Movement.h"
 
 int main(void)
 {
@@ -31,19 +33,22 @@ int main(void)
 	DDRD = 0xFF; PORTD = 0x00;
 
 	/**Set individual task period********************************/
-	unsigned long int Tick1_calc	= 500;
-	unsigned long int Tick2_calc	= 500;
+	unsigned long int ObstacleGenerator_calc	= 500;
+	unsigned long int Display_calc	= 500;
+	unsigned long int Movement_calc	= 100;
 	
 	/**Set individual task properties********************************/
 	
 	//Calculating GCD
-	unsigned long int tempGCD		= findGCD(Tick1_calc, Tick2_calc);
+	unsigned long int tempGCD		= findGCD(ObstacleGenerator_calc, Display_calc);
+					  tempGCD		= findGCD(tempGCD, Movement_calc);
 	unsigned long int GCD			= tempGCD;
 	//Recalculate GCD periods for scheduler
-	unsigned long int Tick1_Period	= Tick1_calc/GCD;
-	unsigned long int Tick2_period	= Tick2_calc/GCD;	
-	static task task1, task2;
-	task *tasks[]					= {&task1 , &task2};
+	unsigned long int Tick1_Period	= ObstacleGenerator_calc/GCD;
+	unsigned long int Tick2_period	= Display_calc/GCD;	
+	unsigned long int Tick3_period	= Movement_calc/GCD;
+	static task task1, task2, task3;
+	task *tasks[]					= {&task1 , &task2, &task3};
 	const unsigned short numTasks	= sizeof(tasks)/sizeof(task*);
 	
 	/****************************************************************/
@@ -59,6 +64,13 @@ int main(void)
 	task2.period					= Tick2_period;//Task Period.
 	task2.elapsedTime				= Tick2_period;//Task current elapsed time.
 	task2.TickFct					= &DisplaySM_Tick;//Function pointer for the tick.
+	
+	//Task 3
+	// Task 2
+	task3.state						= -1;//Task initial state.
+	task3.period					= Tick2_period;//Task Period.
+	task3.elapsedTime				= Tick2_period;//Task current elapsed time.
+	task3.TickFct					= &Movement_Tick;//Function pointer for the tick.
 
 	/**********************************************/
 	

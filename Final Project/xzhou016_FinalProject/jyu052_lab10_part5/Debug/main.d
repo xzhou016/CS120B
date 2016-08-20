@@ -18,7 +18,8 @@ main.d main.o: .././main.c \
  .././io.h .././bit.h .././timer.h .././scheduler.h .././keypad_custom.h \
  .././queue.h \
  d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././ObstacleGenerator.h .././KeypadReadSM.h .././Display.h
+ .././ObstacleGenerator.h .././KeypadReadSM.h .././Display.h \
+ .././Movement.h
 
 d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -71,3 +72,5 @@ d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib
 .././KeypadReadSM.h:
 
 .././Display.h:
+
+.././Movement.h:

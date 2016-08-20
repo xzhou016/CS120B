@@ -12,9 +12,6 @@
 
 //display global variables
 
-
-unsigned char display_index = 0;
-
 enum displaySM{display_start, display_scroll} displaySM;
 int DisplaySM_Tick(int state)
 {
@@ -45,8 +42,11 @@ int DisplaySM_Tick(int state)
 		
 		case display_scroll:
 			LCD_ClearScreen();
+			LCD_Cursor(1);
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
+			LCD_Cursor(playerPosition);
+			LCD_WriteData(0xDB);
 		break;
 		
 		default: break;
