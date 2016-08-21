@@ -149,7 +149,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="bit.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Display.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="keypad.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="keypad_custom.h">

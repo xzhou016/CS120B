@@ -42,11 +42,20 @@ int DisplaySM_Tick(int state)
 		
 		case display_scroll:
 			LCD_ClearScreen();
-			LCD_Cursor(1);
+			//LCD_Cursor(16);
+			if (playerPosition == 16)
+			{
+				row1[15] = x;
+			}else if (playerPosition == 32)
+			{
+				row2[15] = x;
+			}
+			 
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
-			LCD_Cursor(playerPosition);
-			LCD_WriteData(0xDB);
+			//LCD_Cursor(playerPosition);
+			//LCD_WriteData(x);
+			//LCD_WriteData(0xDB);
 		break;
 		
 		default: break;

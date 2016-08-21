@@ -8,7 +8,8 @@
 #include "bit.h"
 #include "timer.h"
 #include "scheduler.h"
-#include "keypad_custom.h"
+#include "keypad.h"
+//#include "keypad_custom.h"
 #include "queue.h"
 
 //global variables
@@ -34,8 +35,8 @@ int main(void)
 
 	/**Set individual task period********************************/
 	unsigned long int ObstacleGenerator_calc	= 500;
-	unsigned long int Display_calc	= 500;
-	unsigned long int Movement_calc	= 100;
+	unsigned long int Display_calc				= 500;
+	unsigned long int Movement_calc				= 500;
 	
 	/**Set individual task properties********************************/
 	
@@ -60,16 +61,16 @@ int main(void)
 	task1.TickFct					= &ObstacleGeneratorSM_Tick;
 	
 	// Task 2
-	task2.state						= -1;//Task initial state.
+	task2.state						= 0;//Task initial state.
 	task2.period					= Tick2_period;//Task Period.
 	task2.elapsedTime				= Tick2_period;//Task current elapsed time.
 	task2.TickFct					= &DisplaySM_Tick;//Function pointer for the tick.
 	
 	//Task 3
 	// Task 2
-	task3.state						= -1;//Task initial state.
-	task3.period					= Tick2_period;//Task Period.
-	task3.elapsedTime				= Tick2_period;//Task current elapsed time.
+	task3.state						= 0;//Task initial state.
+	task3.period					= Tick3_period;//Task Period.
+	task3.elapsedTime				= Tick3_period;//Task current elapsed time.
 	task3.TickFct					= &Movement_Tick;//Function pointer for the tick.
 
 	/**********************************************/
@@ -91,7 +92,7 @@ int main(void)
 			}
 			tasks[i] -> elapsedTime += 1;
 		}
-		while(!TimerFlag);
+		//while(!TimerFlag);
 		TimerFlag = 0;
 	}
 	return 0;

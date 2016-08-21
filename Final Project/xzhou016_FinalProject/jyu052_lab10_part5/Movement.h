@@ -13,6 +13,7 @@ enum MovementSM {M_start, M_wait, M_move, M_moveRelease} MovementSM;
 	
 int Movement_Tick(int state)
 {
+	x = GetKeypadKey();
 	switch(state)
 	{
 		case M_start:
@@ -20,7 +21,7 @@ int Movement_Tick(int state)
 		break;
 		
 		case M_wait:
-			if (GetKeypadKey() != '\0')
+			if (x != '\0')
 			{
 				state = M_move;
 			} 
@@ -31,7 +32,7 @@ int Movement_Tick(int state)
 		break;
 		
 		case M_moveRelease:
-			if (GetKeypadKey() == '\0')
+			if (x == '\0')
 			{
 				state = M_wait;
 			}
@@ -49,11 +50,11 @@ int Movement_Tick(int state)
 		case M_wait: break;
 		
 		case M_move:
-			if (playerPosition = 16 && GetKeypadKey() == 'C')
+			if (playerPosition = 16 && x == 'C')
 			{
 				playerPosition = 32;
 			} 
-			if (playerPosition = 32 && GetKeypadKey() == 'B')
+			if (playerPosition = 32 && x == 'B')
 			{
 				playerPosition = 16;
 			}
