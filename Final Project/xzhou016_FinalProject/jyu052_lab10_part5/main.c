@@ -8,8 +8,8 @@
 #include "bit.h"
 #include "timer.h"
 #include "scheduler.h"
-#include "keypad.h"
-//#include "keypad_custom.h"
+//#include "keypad.h"
+#include "keypad_custom.h"
 #include "queue.h"
 
 //global variables
@@ -36,7 +36,7 @@ int main(void)
 	/**Set individual task period********************************/
 	unsigned long int ObstacleGenerator_calc	= 500;
 	unsigned long int Display_calc				= 500;
-	unsigned long int Movement_calc				= 500;
+	unsigned long int Movement_calc				= 10;
 	
 	/**Set individual task properties********************************/
 	
@@ -92,7 +92,7 @@ int main(void)
 			}
 			tasks[i] -> elapsedTime += 1;
 		}
-		//while(!TimerFlag);
+		while(!TimerFlag);
 		TimerFlag = 0;
 	}
 	return 0;

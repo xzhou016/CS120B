@@ -50,11 +50,11 @@ int Movement_Tick(int state)
 		case M_wait: break;
 		
 		case M_move:
-			if (playerPosition = 16 && x == 'C')
+			if (playerPosition == 16 && x == 'C')
 			{
 				playerPosition = 32;
 			} 
-			if (playerPosition = 32 && x == 'B')
+			if (playerPosition == 32 && x == 'B')
 			{
 				playerPosition = 16;
 			}
