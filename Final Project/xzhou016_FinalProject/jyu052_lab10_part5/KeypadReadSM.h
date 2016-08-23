@@ -13,7 +13,7 @@ enum keypadSM{keypad_start, keypad_wait, keypad_read, keypad_release} keypadSM;
 int Tick1(int state)
 {
 	unsigned char keyPress = ~PINC & 0x0F;
-	x = GetKeypadKey();
+	keypad_value = GetKeypadKey();
 	
 	switch(state)
 	{
@@ -51,7 +51,7 @@ int Tick1(int state)
 		case keypad_wait:	break;
 		
 		case keypad_read:
-			switch (x)
+			switch (keypad_value )
 			 {
 				case '\0': LCD_ClearScreen();		 break; // All 5 LEDs on
 				case '1': LCD_DisplayString(1, "1"); break; // hex equivalent

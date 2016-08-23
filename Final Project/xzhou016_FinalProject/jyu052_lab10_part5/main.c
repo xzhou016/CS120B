@@ -14,18 +14,21 @@
 
 //global variables
 //unsigned char front = 0;
-unsigned char x						= 0x00;
+unsigned char keypad_value						= 0x00;
 unsigned char row1[17]				= " ";
 unsigned char row2[17]				= " ";
 unsigned char object_generate_prob	= 20;
 unsigned char playerPosition		= 16;
+unsigned char isHit					= 0;
+unsigned char playerIcon			= 0xDB;
 //Queue myQ;
 
 //state machines
 #include "ObstacleGenerator.h"
-#include "KeypadReadSM.h"
+//#include "KeypadReadSM.h"
 #include "Display.h"
 #include "Movement.h"
+#include "CollisionDetection.h"
 
 int main(void)
 {
@@ -37,19 +40,24 @@ int main(void)
 	unsigned long int ObstacleGenerator_calc	= 500;
 	unsigned long int Display_calc				= 500;
 	unsigned long int Movement_calc				= 10;
+	unsigned long int Collision_calc			= 100;
 	
+		
 	/**Set individual task properties********************************/
 	
 	//Calculating GCD
 	unsigned long int tempGCD		= findGCD(ObstacleGenerator_calc, Display_calc);
 					  tempGCD		= findGCD(tempGCD, Movement_calc);
+					  tempGCD		= findGCD(tempGCD, Collision_calc);
 	unsigned long int GCD			= tempGCD;
 	//Recalculate GCD periods for scheduler
-	unsigned long int Tick1_Period	= ObstacleGenerator_calc/GCD;
-	unsigned long int Tick2_period	= Display_calc/GCD;	
-	unsigned long int Tick3_period	= Movement_calc/GCD;
-	static task task1, task2, task3;
-	task *tasks[]					= {&task1 , &task2, &task3};
+	unsigned long int Tick1_Period	= ObstacleGenerator_calc/GCD,
+					  Tick2_period	= Display_calc/GCD,
+					  Tick3_period	= Movement_calc/GCD,
+					  Tick4_period	= Collision_calc/GCD;
+
+	static task task1, task2, task3, task4;
+	task *tasks[]					= {&task1 , &task2, &task3, &task4};
 	const unsigned short numTasks	= sizeof(tasks)/sizeof(task*);
 	
 	/****************************************************************/
@@ -67,11 +75,16 @@ int main(void)
 	task2.TickFct					= &DisplaySM_Tick;//Function pointer for the tick.
 	
 	//Task 3
-	// Task 2
 	task3.state						= 0;//Task initial state.
 	task3.period					= Tick3_period;//Task Period.
 	task3.elapsedTime				= Tick3_period;//Task current elapsed time.
 	task3.TickFct					= &Movement_Tick;//Function pointer for the tick.
+	
+	//Task 4
+	task4.state						= 0;//Task initial state.
+	task4.period					= Tick4_period;//Task Period.
+	task4.elapsedTime				= Tick4_period;//Task current elapsed time.
+	task4.TickFct					= &Collision_Tick;//Function pointer for the tick.
 
 	/**********************************************/
 	

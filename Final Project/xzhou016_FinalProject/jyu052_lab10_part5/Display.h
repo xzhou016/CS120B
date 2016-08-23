@@ -55,7 +55,7 @@ int DisplaySM_Tick(int state)
 			LCD_DisplayString(17, row2);
 			LCD_Cursor(playerPosition);
 			//LCD_WriteData(x);
-			LCD_WriteData(0xDB);
+			LCD_WriteData(playerIcon);
 		break;
 		
 		default: break;
