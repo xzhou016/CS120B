@@ -16,6 +16,7 @@ int Collision_Tick(int state)
 	switch(state)
 	{
 		case C_start:
+			isHit					= 0;		
 			state = C_detect;
 		break;
 		
@@ -32,7 +33,6 @@ int Collision_Tick(int state)
 	switch(state)
 	{
 		case C_start:
-			isHit = 0;
 		break;
 			
 		case C_detect:
@@ -46,9 +46,7 @@ int Collision_Tick(int state)
 				isHit = 1;
 				playerIcon = 'X';
 			}
-			else 
-				isHit = 0;
-				//playerIcon = 0xDB;
+
 			break;	
 			
 		default:break;

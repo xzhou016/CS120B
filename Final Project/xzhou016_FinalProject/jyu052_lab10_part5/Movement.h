@@ -17,14 +17,15 @@ int Movement_Tick(int state)
 	switch(state)
 	{
 		case M_start:
-			state = M_wait;
+			playerPosition			= 16;
+			state					= M_wait;
 		break;
 		
 		case M_wait:
-			if (keypad_value != '\0')
+			 if (keypad_value != '\0')
 			{
 				state = M_move;
-			} 
+			}
 		break;
 		
 		case M_move:

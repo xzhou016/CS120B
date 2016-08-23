@@ -13,15 +13,19 @@
 #include "queue.h"
 
 //global variables
-//unsigned char front = 0;
-unsigned char keypad_value						= 0x00;
+unsigned char keypad_value			= 0x00;
 unsigned char row1[17]				= " ";
 unsigned char row2[17]				= " ";
 unsigned char object_generate_prob	= 20;
 unsigned char playerPosition		= 16;
 unsigned char isHit					= 0;
 unsigned char playerIcon			= 0xDB;
+unsigned char str_index = 1;
 //Queue myQ;
+
+//Tasks
+static task task1, task2, task3, task4;
+task *tasks[]					= {&task1 , &task2, &task3, &task4};
 
 //state machines
 #include "ObstacleGenerator.h"
@@ -55,9 +59,6 @@ int main(void)
 					  Tick2_period	= Display_calc/GCD,
 					  Tick3_period	= Movement_calc/GCD,
 					  Tick4_period	= Collision_calc/GCD;
-
-	static task task1, task2, task3, task4;
-	task *tasks[]					= {&task1 , &task2, &task3, &task4};
 	const unsigned short numTasks	= sizeof(tasks)/sizeof(task*);
 	
 	/****************************************************************/
@@ -98,8 +99,10 @@ int main(void)
 	{
 		for(unsigned short i = 0; i < numTasks; i++)
 		{
+			//keypad_value = GetKeypadKey();
 			if(tasks[i] -> elapsedTime == tasks[i]-> period)
 			{
+				
 				tasks[i] -> state		= tasks[i] -> TickFct(tasks[i] -> state);
 				tasks[i] -> elapsedTime = 0;
 			}

@@ -9,8 +9,6 @@
 #ifndef OBSTACLEGENERATOR_H_
 #define OBSTACLEGENERATOR_H_
 
-unsigned char str_index = 1;
-
 void arrayShift(unsigned char shift)
 {
 	unsigned char temp;
@@ -21,17 +19,32 @@ void arrayShift(unsigned char shift)
 	}
 }
 
+void clearArray(unsigned char arraySize)
+{
+	for (unsigned char i = 0 ; i <= arraySize; i++)
+	{
+		row1[i] = '\0';
+		row2[i] = '\0';
+	}
+}
+
 enum ObstacleGeneratorSM {OGSM_start, OGSM_generate} ObstacleGeneratorSM;
 int ObstacleGeneratorSM_Tick(int state)
 {
 	switch(state) //state transition
 	{
+		//keypad_value = GetKeypadKey();
 		case OGSM_start: 
-			state = OGSM_generate;
+			str_index				= 1;
+			object_generate_prob	= 20;
+			if (keypad_value == '1' || keypad_value == '0')
+			{
+				state = OGSM_generate;
+			}
 			
 		break;
 		
-		case OGSM_generate: break;
+		case OGSM_generate:break;
 		
 		default: 
 			state = OGSM_start;
