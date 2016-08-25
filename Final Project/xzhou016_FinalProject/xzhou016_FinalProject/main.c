@@ -1,6 +1,3 @@
-
-
-
 //external library
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -17,10 +14,12 @@ unsigned char keypad_value			= 0x00;
 unsigned char row1[17]				= " ";
 unsigned char row2[17]				= " ";
 unsigned char object_generate_prob	= 20;
+unsigned char beginGenerate			= 0;
+unsigned char restart				= 0;
 unsigned char playerPosition		= 16;
 unsigned char isHit					= 0;
 unsigned char playerIcon			= 0xDB;
-unsigned char str_index = 1;
+unsigned char str_index				= 1;
 //Queue myQ;
 
 //Tasks
@@ -43,6 +42,8 @@ int main(void)
 	/**Set individual task period********************************/
 	unsigned long int ObstacleGenerator_calc	= 500;
 	unsigned long int Display_calc				= 500;
+// 	unsigned long int Movement_calc				= 500;
+// 	unsigned long int Collision_calc			= 500;
 	unsigned long int Movement_calc				= 10;
 	unsigned long int Collision_calc			= 100;
 	
