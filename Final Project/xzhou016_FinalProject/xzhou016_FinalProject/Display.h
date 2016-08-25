@@ -72,6 +72,7 @@ int DisplaySM_Tick(int state)
 		case display_start:
 			isHit			= 0;
 			playerPosition	= 16;
+			//playerScore		= 0;
 			task3.state		= 0;//Task initial state.
 			restart			= 0;
 			keypad_value	= 0;
