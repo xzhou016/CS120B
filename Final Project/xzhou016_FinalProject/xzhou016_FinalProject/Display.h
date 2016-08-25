@@ -84,16 +84,15 @@ int DisplaySM_Tick(int state)
 		
 		case display_scroll:
 			beginGenerate = 1;
+			//playerScore++;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
 			LCD_Cursor(playerPosition);
-			//LCD_WriteData(x);
 			LCD_WriteData(playerIcon);
 		break;
 		
 		case display_deathAnimation_X:
-			//task1.state = 0;//Task initial state.
 			beginGenerate = 0;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
@@ -112,10 +111,12 @@ int DisplaySM_Tick(int state)
 		
 		case display_dead:
 			deathAni = 0;
+			//playerScoreArr[0] = playerScore; playerScoreArr[1] = '\0';
 			LCD_ClearScreen();
 			LCD_DisplayString(1, " YOU ARE DEAD:( ");
+			//LCD_DisplayString(1, " YOU ARE DEAD:( SCORE: ");
+			//LCD_DisplayString(2, playerScoreArr);
 			restart = 1;
-			//clearArray(16);
 		break;
 		
 		default: break;
