@@ -23,8 +23,8 @@ void clearArray(unsigned char arraySize)
 {
 	for (unsigned char i = 0 ; i < arraySize; i++)
 	{
-		row1[i] = 0;
-		row2[i] = 0;
+		row1[i] = 32;
+		row2[i] = 32;
 	}
 }
 
@@ -88,6 +88,14 @@ int ObstacleGeneratorSM_Tick(int state)
 			{
 				row1[0] = '*';
 			}
+			else if ((rand() % AI_fire_prob) == 1 && AIPosition == 1)
+			{
+				row1[0] = '-';
+			}
+			else if ((rand() % powerUp_prob) == 1)
+			{
+				row1[0] = '+';
+			}
 			else
 				row1[0] = ' ';
 					
@@ -98,6 +106,14 @@ int ObstacleGeneratorSM_Tick(int state)
 			else if ((rand() % object_generate_prob) == 1)
 			{
 				row2[0] = '*';
+			}
+			else if ((rand() % AI_fire_prob) == 1 && AIPosition == 17)
+			{
+				row2[0] = '-';
+			}
+			else if ((rand() % powerUp_prob) == 1)
+			{
+				row2[0] = 0xFD;
 			}
 			else
 				row2[0] = ' ';

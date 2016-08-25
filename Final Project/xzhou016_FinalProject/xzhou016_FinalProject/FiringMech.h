@@ -70,7 +70,6 @@ int FiringMech_Tick(int state)
 		break;
 		
 		case FM_release:
-			//bullet = 0;
 		break;
 		
 		default: break;

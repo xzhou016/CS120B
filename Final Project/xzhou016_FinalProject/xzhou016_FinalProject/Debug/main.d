@@ -16,10 +16,9 @@ main.d main.o: .././main.c \
  d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdarg.h \
  d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stddef.h \
  .././io.h .././bit.h .././timer.h .././scheduler.h .././keypad_custom.h \
- .././queue.h \
- d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  .././ObstacleGenerator.h .././Display.h .././Movement.h \
- .././CollisionDetection.h .././LevelProgression.h .././FiringMech.h
+ .././CollisionDetection.h .././LevelProgression.h .././FiringMech.h \
+ .././AI.h
 
 d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -63,10 +62,6 @@ d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\
 
 .././keypad_custom.h:
 
-.././queue.h:
-
-d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
-
 .././ObstacleGenerator.h:
 
 .././Display.h:
@@ -78,3 +73,5 @@ d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib
 .././LevelProgression.h:
 
 .././FiringMech.h:
+
+.././AI.h:

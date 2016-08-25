@@ -149,6 +149,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AI.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="bit.h">
       <SubType>compile</SubType>
     </Compile>
@@ -159,9 +162,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="FiringMech.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="keypad.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="keypad_custom.h">
@@ -177,12 +177,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ObstacleGenerator.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="KeypadReadSM.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="queue.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

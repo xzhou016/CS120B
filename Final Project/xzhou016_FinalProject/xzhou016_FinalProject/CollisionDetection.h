@@ -71,11 +71,34 @@ int Collision_Tick(int state)
 			}
 			if (playerPosition == 16 && (row1[15] != 32 && row1[15] != 0))
 			{
-				isHit	= 1;
+				//prevent underflow
+				if (invincibility > 0)
+				{
+					invincibility--;
+				}
+				
+				//check if invincibility is enabled
+				if (invincibility < 1)
+				{
+					isHit	= 1;
+				}
+				
+				//add invincibility
+				if (row1[15] == '+')
+				{
+					isHit = 0;
+					invincibility = 16;
+				}
 			} 
 			else if (playerPosition == 32 && (row2[15] != 32 && row2[15] != 0))
 			{
-				isHit	= 1;
+				
+				isHit = 1;
+				if (row2[15] == 0xFD)
+				{
+					isHit = 0;
+					clearArray(17);
+				}
 			}
 
 			break;	
