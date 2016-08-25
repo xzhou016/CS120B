@@ -11,10 +11,11 @@
 
 void shiftBullets(unsigned char shift)
 {
-	for (unsigned char i = shift ; i > 0; i--)
+	for (unsigned char i = 0 ; i < shift; i++)
 	{
-		bulletRow[i - 1 ] = bulletRow[i];
+		bulletRow[i] = bulletRow[i + 1];
 	}
+	bulletRow[16] = 0;
 }
 
 enum FiringMechSM {FM_start, FM_wait, FM_trigger, FM_release} FiringMechSM;
@@ -28,7 +29,7 @@ int FiringMech_Tick(int state)
 		break;
 		
 		case FM_wait:
-			if (keypad_value == 'd')
+			if (keypad_value == 'D')
 			{
 				state = FM_trigger;
 			}
@@ -39,7 +40,7 @@ int FiringMech_Tick(int state)
 		break;
 		
 		case FM_release:
-			if (keypad_value != 'd')
+			if (keypad_value != 'D')
 			{
 				state = FM_wait;
 			}
@@ -55,14 +56,17 @@ int FiringMech_Tick(int state)
 		case FM_start: break;
 		
 		case FM_wait: 
-			bulletRow[15] = 0;
-			shiftBullets(str_index);
+			if (bulletPos > 0)
+			{
+				bulletPos--;
+			}
 		break;
 		
 		case FM_trigger:
-			bulletRow[15] = '-';
-			//bullet = 1;
-			//QueueEnqueue(bulletQ, 1);
+			bullet = 1;
+			
+			bulletPos = playerPosition - 1;
+			
 		break;
 		
 		case FM_release:
@@ -71,6 +75,8 @@ int FiringMech_Tick(int state)
 		
 		default: break;
 	}
+	
+	return state;
 }
 
 

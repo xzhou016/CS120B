@@ -11,7 +11,7 @@
 
 void destroyObj()
 {
-	for (unsigned i = 0; i < 15; i++)
+	for (unsigned i = 0; i < 16; i++)
 	{
 		if (playerPosition == 16 )
 		{
@@ -57,8 +57,18 @@ int Collision_Tick(int state)
 			
 		case C_detect:
 			
-			destroyObj();
-			
+			if (bullet == 1)
+			{
+				if (bulletPos < 16 && (row1[bulletPos - 1] == '*' || row1[bulletPos -1] == '#'))
+				{
+					row1[bulletPos - 1] = ' ';
+					bullet = 0;
+				}else if(bulletPos < 32 && (row2[bulletPos - 17 ] == '*' || row2[bulletPos - 17] == '#') )
+				{
+					row2[bulletPos - 17] = 32;
+					bullet = 0;
+				}
+			}
 			if (playerPosition == 16 && (row1[15] != 32 && row1[15] != 0))
 			{
 				isHit	= 1;
