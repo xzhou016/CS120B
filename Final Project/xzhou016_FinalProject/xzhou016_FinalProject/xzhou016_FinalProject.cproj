@@ -173,13 +173,7 @@
     <Compile Include="ObstacleGenerator.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ObstacleGenerator_Old.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="KeypadReadSM.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Display_Old.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="queue.h">

@@ -12,23 +12,16 @@
 #define DISPLAY_H_
 
 unsigned char deathAni;
-
+unsigned char debounce2 = 50;
 //display global variables
 enum displaySM{display_start,display_wait, display_scroll, display_deathAnimation_X, display_dead} displaySM;
 int DisplaySM_Tick(int state)
 {
-	keypad_value = GetKeypadKey();
-	
-	//unsigned char back = 0;
 	switch(state) //state transition
 	{
+
 		case display_start:
-			playerIcon						= 0xDB;
-			task3.state						= 0;//Task initial state.
-			task4.state						= 0;//Task initial state.
-			deathAni						= 0;
-			 
-			state =  display_wait;
+				state =  display_wait;
 		break;
 		
 		case display_wait:
@@ -39,15 +32,14 @@ int DisplaySM_Tick(int state)
 		break;
 		
 		case display_scroll:
-			if (isHit == 0)
+			if (restart == 1)
+			{
+				state = display_deathAnimation_X;
+			}
+			else if (isHit == 0)
 			{
 				state = display_scroll;
 			}
-// 			}else if (keypad_value == '1')
-// 			{
-// 				state = display_start;
-// 			}
-			
 			else 
 				state = display_deathAnimation_X;
 		break;
@@ -65,6 +57,7 @@ int DisplaySM_Tick(int state)
 			if (keypad_value == '1')
 			{
 				state = display_start;
+				
 			}
 		break;
 		
@@ -77,6 +70,11 @@ int DisplaySM_Tick(int state)
 	switch(state) //state action
 	{
 		case display_start:
+			isHit			= 0;
+			playerPosition	= 16;
+			task3.state		= 0;//Task initial state.
+			restart			= 0;
+			keypad_value	= 0;
 		break;
 		
 		case display_wait:
@@ -85,6 +83,7 @@ int DisplaySM_Tick(int state)
 		break;
 		
 		case display_scroll:
+			beginGenerate = 1;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
@@ -94,8 +93,8 @@ int DisplaySM_Tick(int state)
 		break;
 		
 		case display_deathAnimation_X:
-			task1.state = 0;//Task initial state.
-			keypad_value = 'l';
+			//task1.state = 0;//Task initial state.
+			beginGenerate = 0;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
@@ -112,9 +111,11 @@ int DisplaySM_Tick(int state)
 		break;
 		
 		case display_dead:
+			deathAni = 0;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, " YOU ARE DEAD:( ");
-			clearArray(16);
+			restart = 1;
+			//clearArray(16);
 		break;
 		
 		default: break;
