@@ -8,16 +8,6 @@
 
 #ifndef FIRINGMECH_H_
 #define FIRINGMECH_H_
-
-void shiftBullets(unsigned char shift)
-{
-	for (unsigned char i = 0 ; i < shift; i++)
-	{
-		bulletRow[i] = bulletRow[i + 1];
-	}
-	bulletRow[16] = 0;
-}
-
 enum FiringMechSM {FM_start, FM_wait, FM_trigger, FM_release} FiringMechSM;
 
 int FiringMech_Tick(int state) 

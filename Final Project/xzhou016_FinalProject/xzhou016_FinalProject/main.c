@@ -11,7 +11,6 @@
 unsigned char keypad_value			= 0x00;
 unsigned char row1[17]				= "                ";
 unsigned char row2[17]				= "                ";
-unsigned char bulletRow[17];
 unsigned char object_generate_prob	= 20;
 unsigned char AI_fire_prob			= 10;
 unsigned char powerUp_prob			= 10;
@@ -26,7 +25,6 @@ unsigned char AIIcon				= 0x7E;
 unsigned char str_index				= 1;
 unsigned char bullet				= 0;
 unsigned char bulletPos				= 16;
-/*Queue bulletQ;*/
 
 //Tasks
 static task task1, task2, task3, task4, task5, task6, task7;
@@ -48,14 +46,12 @@ int main(void)
 	DDRB = 0xFF; PORTB = 0x00; // PORTB set to output, outputs init 0s
 	DDRC = 0xF0; PORTC = 0x0F; // PC7..4 outputs init 0s, PC3..0 inputs init 1s
 	DDRD = 0xFF; PORTD = 0x00;
-	
-// 	bulletQ = QueueInit(1);
 
 	/**Set individual task period********************************/
-	unsigned long int ObstacleGenerator_calc	= 500;
+	unsigned long int ObstacleGenerator_calc	= 250;
 	unsigned long int Display_calc				= 500;
-// 	unsigned long int Movement_calc				= 500;
-// 	unsigned long int Collision_calc			= 500;
+// 	unsigned long int Movement_calc				= 500;  debugging purposes
+// 	unsigned long int Collision_calc			= 500; 
 // 	unsigned long int LevelProgression_calc		= 500;
 // 	unsigned long int FiringMech_calc			= 500;
 	unsigned long int Movement_calc				= 10;
@@ -143,7 +139,6 @@ int main(void)
 	{
 		for(unsigned short i = 0; i < numTasks; i++)
 		{
-			//keypad_value = GetKeypadKey();
 			if(tasks[i] -> elapsedTime == tasks[i]-> period)
 			{
 				

@@ -72,7 +72,7 @@ int DisplaySM_Tick(int state)
 		case display_start:
 			isHit			= 0;
 			playerPosition	= 16;
-			//playerScore		= 0;
+			AIPosition		= 1;
 			task3.state		= 0;//Task initial state.
 			restart			= 0;
 			keypad_value	= 0;
@@ -85,7 +85,6 @@ int DisplaySM_Tick(int state)
 		
 		case display_scroll:
 			beginGenerate = 1;
-			//playerScore++;
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
@@ -94,8 +93,11 @@ int DisplaySM_Tick(int state)
 				LCD_Cursor(bulletPos);
 				LCD_WriteData('-');
 			}
+			
+			//draw AI
 			LCD_Cursor(AIPosition);
 			LCD_WriteData(AIIcon);
+			//draw player
 			LCD_Cursor(playerPosition);
 			LCD_WriteData(playerIcon);
 		break;
@@ -119,11 +121,8 @@ int DisplaySM_Tick(int state)
 		
 		case display_dead:
 			deathAni = 0;
-			//playerScoreArr[0] = playerScore; playerScoreArr[1] = '\0';
 			LCD_ClearScreen();
 			LCD_DisplayString(1, " YOU ARE DEAD:( ");
-			//LCD_DisplayString(1, " YOU ARE DEAD:( SCORE: ");
-			//LCD_DisplayString(2, playerScoreArr);
 			restart = 1;
 		break;
 		

@@ -11,7 +11,7 @@
 
 enum MovementSM {M_start, M_wait, M_move, M_moveRelease} MovementSM;
 
-unsigned char debounce	= 0;
+unsigned char debounce	= 0; //keypad debounce
 	
 int Movement_Tick(int state)
 {
@@ -66,14 +66,11 @@ int Movement_Tick(int state)
 			{
 				restart = 1;
 				debounce = 0;
-				//keypad_value = 0;
 			}
-			
 			debounce++;
 		break;
 		
 		case M_moveRelease: 
-			//keypad_value = 0;
 		break;
 		
 		default: break;
