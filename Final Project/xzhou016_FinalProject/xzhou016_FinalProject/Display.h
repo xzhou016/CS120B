@@ -89,6 +89,11 @@ int DisplaySM_Tick(int state)
 			LCD_ClearScreen();
 			LCD_DisplayString(1, row1);
 			LCD_DisplayString(17, row2);
+			if (bullet == 1)
+			{
+				LCD_Cursor(bulletPos);
+				LCD_WriteData('-');
+			}
 			LCD_Cursor(playerPosition);
 			LCD_WriteData(playerIcon);
 		break;

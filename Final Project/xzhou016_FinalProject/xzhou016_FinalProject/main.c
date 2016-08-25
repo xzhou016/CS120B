@@ -5,14 +5,14 @@
 #include "bit.h"
 #include "timer.h"
 #include "scheduler.h"
-//#include "keypad.h"
 #include "keypad_custom.h"
 #include "queue.h"
 
 //global variables
 unsigned char keypad_value			= 0x00;
-unsigned char row1[17]				= " ";
-unsigned char row2[17]				= " ";
+unsigned char row1[17]				= "                ";
+unsigned char row2[17]				= "                ";
+unsigned char bulletRow[17];
 unsigned char object_generate_prob	= 20;
 unsigned char beginGenerate			= 0;
 unsigned char restart				= 0;
@@ -20,21 +20,25 @@ unsigned char playerPosition		= 16;
 unsigned char isHit					= 0;
 unsigned char playerIcon			= 0xDB;
 unsigned char str_index				= 1;
-unsigned char playerScore[10];
+unsigned char bullet				= 0;
+unsigned char bulletPos				= 16;
+/*Queue bulletQ;*/
+
+//Tasks
+static task task1, task2, task3, task4, task5, task6;
+task *tasks[]					= {&task1 , &task2, &task3, &task4, &task5, &task6};
+//unsigned char playerScore[10];
 //unsigned char playerScoreArr[2]; 
 //Queue myQ;
 
-//Tasks
-static task	 task1, task2, task3, task4, task5;
-task *tasks[] = {&task1 , &task2, &task3, &task4, &task5};
-
 //state machines
 #include "ObstacleGenerator.h"
-//#include "KeypadReadSM.h"
 #include "Display.h"
 #include "Movement.h"
 #include "CollisionDetection.h"
 #include "LevelProgression.h"
+#include "FiringMech.h"
+
 
 
 int main(void)
@@ -42,15 +46,20 @@ int main(void)
 	DDRB = 0xFF; PORTB = 0x00; // PORTB set to output, outputs init 0s
 	DDRC = 0xF0; PORTC = 0x0F; // PC7..4 outputs init 0s, PC3..0 inputs init 1s
 	DDRD = 0xFF; PORTD = 0x00;
+	
+// 	bulletQ = QueueInit(1);
 
 	/**Set individual task period********************************/
 	unsigned long int ObstacleGenerator_calc	= 500;
 	unsigned long int Display_calc				= 500;
 // 	unsigned long int Movement_calc				= 500;
 // 	unsigned long int Collision_calc			= 500;
+// 	unsigned long int LevelProgression_calc		= 500;
+// 	unsigned long int FiringMech_calc			= 500;
 	unsigned long int Movement_calc				= 10;
 	unsigned long int Collision_calc			= 100;
-	unsigned long int LevelProgression_calc		= 1200;
+	unsigned long int LevelProgression_calc		= 2000;
+	unsigned long int FiringMech_calc			= 100;
 	
 		
 	/**Set individual task properties********************************/
@@ -60,13 +69,17 @@ int main(void)
 					  tempGCD		= findGCD(tempGCD, Movement_calc);
 					  tempGCD		= findGCD(tempGCD, Collision_calc);
 					  tempGCD		= findGCD(tempGCD, LevelProgression_calc);
+					  tempGCD		= findGCD(tempGCD, FiringMech_calc);
+					  
 	unsigned long int GCD			= tempGCD;
 	//Recalculate GCD periods for scheduler
 	unsigned long int Tick1_Period	= ObstacleGenerator_calc/GCD,
 					  Tick2_period	= Display_calc/GCD,
 					  Tick3_period	= Movement_calc/GCD,
 					  Tick4_period	= Collision_calc/GCD,
-					  Tick5_period	= LevelProgression_calc/GCD;
+					  Tick5_period	= LevelProgression_calc/GCD,
+					  Tick6_period	= FiringMech_calc/GCD;
+					  
 	const unsigned short numTasks	= sizeof(tasks)/sizeof(task*);
 	
 	/****************************************************************/
@@ -100,6 +113,12 @@ int main(void)
 	task5.period					= Tick5_period;//Task Period.
 	task5.elapsedTime				= Tick5_period;//Task current elapsed time.
 	task5.TickFct					= &LevelProgression_Tick;//Function pointer for the tick.
+	
+	//Task 6
+	task6.state						= 0;//Task initial state.
+	task6.period					= Tick6_period;//Task Period.
+	task6.elapsedTime				= Tick6_period;//Task current elapsed time.
+	task6.TickFct					= &FiringMech_Tick;//Function pointer for the tick.
 
 	/**********************************************/
 	

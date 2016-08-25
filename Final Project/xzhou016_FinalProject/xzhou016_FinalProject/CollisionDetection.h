@@ -9,6 +9,26 @@
 #ifndef COLLISIONDETECTION_H_
 #define COLLISIONDETECTION_H_
 
+void destroyObj()
+{
+	for (unsigned i = 0; i < 16; i++)
+	{
+		if (playerPosition == 16 )
+		{
+			if (bulletRow[i] == '-' && (row1[i] == '*' || row1[i] == '#' ))
+			{
+				row1[i] = ' ';
+			}
+		}else if (playerPosition == 32)
+		{
+			if (bulletRow[i] == '-' && (row2[i] == '*' || row2[i] == '#' ))
+			{
+				row2[i] = ' ';
+			}
+		}
+	}
+}
+
 enum CollisionSM {C_start, C_detect} CollisionSM;
 
 int Collision_Tick(int state) 
@@ -36,6 +56,19 @@ int Collision_Tick(int state)
 		break;
 			
 		case C_detect:
+			
+			if (bullet == 1)
+			{
+				if (bulletPos < 16 && (row1[bulletPos - 1] == '*' || row1[bulletPos -1] == '#'))
+				{
+					row1[bulletPos - 1] = ' ';
+					bullet = 0;
+				}else if(bulletPos < 32 && (row2[bulletPos - 17 ] == '*' || row2[bulletPos - 17] == '#') )
+				{
+					row2[bulletPos - 17] = 32;
+					bullet = 0;
+				}
+			}
 			if (playerPosition == 16 && (row1[15] != 32 && row1[15] != 0))
 			{
 				isHit	= 1;
