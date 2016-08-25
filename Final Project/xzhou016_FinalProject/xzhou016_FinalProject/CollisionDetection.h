@@ -8,27 +8,6 @@
 
 #ifndef COLLISIONDETECTION_H_
 #define COLLISIONDETECTION_H_
-
-void destroyObj()
-{
-	for (unsigned i = 0; i < 16; i++)
-	{
-		if (playerPosition == 16 )
-		{
-			if (bulletRow[i] == '-' && (row1[i] == '*' || row1[i] == '#' ))
-			{
-				row1[i] = ' ';
-			}
-		}else if (playerPosition == 32)
-		{
-			if (bulletRow[i] == '-' && (row2[i] == '*' || row2[i] == '#' ))
-			{
-				row2[i] = ' ';
-			}
-		}
-	}
-}
-
 enum CollisionSM {C_start, C_detect} CollisionSM;
 
 int Collision_Tick(int state) 
@@ -80,7 +59,7 @@ int Collision_Tick(int state)
 				//check if invincibility is enabled
 				if (invincibility < 1)
 				{
-					isHit	= 1;
+					isHit = 1;
 				}
 				
 				//add invincibility
@@ -92,8 +71,18 @@ int Collision_Tick(int state)
 			} 
 			else if (playerPosition == 32 && (row2[15] != 32 && row2[15] != 0))
 			{
+				//prevent underflow
+				if (invincibility > 0)
+				{
+					invincibility--;
+				}
 				
-				isHit = 1;
+				//check if invincibility is enabled
+				if (invincibility < 1)
+				{
+					isHit = 1;
+				}
+				
 				if (row2[15] == 0xFD)
 				{
 					isHit = 0;

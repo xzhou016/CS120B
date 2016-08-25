@@ -33,7 +33,6 @@ int ObstacleGeneratorSM_Tick(int state)
 {
 	switch(state) //state transition
 	{
-		//keypad_value = GetKeypadKey();
 		case OGSM_start: 
 			state = OGSM_wait;
 		break;
@@ -79,6 +78,7 @@ int ObstacleGeneratorSM_Tick(int state)
 		case OGSM_generate: 
 			//shift data >> 1
 			arrayShift(str_index);
+			
 			//generate an obstacle then push into first index
 			if ((rand() % object_generate_prob) == 1)
 			{
