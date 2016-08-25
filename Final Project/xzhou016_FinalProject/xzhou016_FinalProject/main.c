@@ -13,6 +13,7 @@
 unsigned char keypad_value			= 0x00;
 unsigned char row1[17]				= " ";
 unsigned char row2[17]				= " ";
+unsigned char bulletRow[15];
 unsigned char object_generate_prob	= 20;
 unsigned char beginGenerate			= 0;
 unsigned char restart				= 0;
@@ -20,11 +21,12 @@ unsigned char playerPosition		= 16;
 unsigned char isHit					= 0;
 unsigned char playerIcon			= 0xDB;
 unsigned char str_index				= 1;
-//Queue myQ;
+unsigned char bullet				= 0;
+Queue bulletQ;
 
 //Tasks
-static task task1, task2, task3, task4;
-task *tasks[]					= {&task1 , &task2, &task3, &task4};
+static task task1, task2, task3, task4, task5;
+task *tasks[]					= {&task1 , &task2, &task3, &task4, &task5};
 
 //state machines
 #include "ObstacleGenerator.h"
@@ -33,11 +35,14 @@ task *tasks[]					= {&task1 , &task2, &task3, &task4};
 #include "Movement.h"
 #include "CollisionDetection.h"
 
+
 int main(void)
 {
 	DDRB = 0xFF; PORTB = 0x00; // PORTB set to output, outputs init 0s
 	DDRC = 0xF0; PORTC = 0x0F; // PC7..4 outputs init 0s, PC3..0 inputs init 1s
 	DDRD = 0xFF; PORTD = 0x00;
+	
+	bulletQ = QueueInit(1);
 
 	/**Set individual task period********************************/
 	unsigned long int ObstacleGenerator_calc	= 500;
