@@ -164,6 +164,9 @@
     <Compile Include="keypad_custom.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="LevelProgression.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

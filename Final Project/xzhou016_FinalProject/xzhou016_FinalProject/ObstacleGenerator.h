@@ -16,6 +16,7 @@ void arrayShift(unsigned char shift)
 		row1[i] = row1[i - 1];
 		row2[i] = row2[i - 1 ];
 	}
+	
 }
 
 void clearArray(unsigned char arraySize)
@@ -67,7 +68,7 @@ int ObstacleGeneratorSM_Tick(int state)
 	{
 		case OGSM_start:
 			str_index				= 1;
-			object_generate_prob	= 2;
+			object_generate_prob	= 20;
 			clearArray(17);
 		break;
 		
@@ -107,6 +108,9 @@ int ObstacleGeneratorSM_Tick(int state)
 				row1[16] = '\0'; row2[16] = '\0';
 				str_index = 16;
 			}else str_index++;
+			
+			
+			//arrayCpy(32);
 		break;
 	}
 	

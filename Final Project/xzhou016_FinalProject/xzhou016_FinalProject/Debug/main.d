@@ -19,7 +19,7 @@ main.d main.o: .././main.c \
  .././queue.h \
  d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  .././ObstacleGenerator.h .././Display.h .././Movement.h \
- .././CollisionDetection.h
+ .././CollisionDetection.h .././LevelProgression.h
 
 d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -74,3 +74,5 @@ d:\program\ files\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib
 .././Movement.h:
 
 .././CollisionDetection.h:
+
+.././LevelProgression.h:
