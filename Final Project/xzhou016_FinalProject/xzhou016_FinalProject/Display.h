@@ -94,6 +94,8 @@ int DisplaySM_Tick(int state)
 				LCD_Cursor(bulletPos);
 				LCD_WriteData('-');
 			}
+			LCD_Cursor(AIPosition);
+			LCD_WriteData(AIIcon);
 			LCD_Cursor(playerPosition);
 			LCD_WriteData(playerIcon);
 		break;
