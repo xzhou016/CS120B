@@ -10,6 +10,8 @@
 #define MOVEMENT_H_
 
 enum MovementSM {M_start, M_wait, M_move, M_moveRelease} MovementSM;
+
+unsigned char debounce	= 0;
 	
 int Movement_Tick(int state)
 {
@@ -17,8 +19,7 @@ int Movement_Tick(int state)
 	switch(state)
 	{
 		case M_start:
-			playerPosition			= 16;
-			state					= M_wait;
+			state			= M_wait;
 		break;
 		
 		case M_wait:
@@ -46,7 +47,8 @@ int Movement_Tick(int state)
 	
 	switch(state)
 	{
-		case M_start: break;
+		case M_start: 
+		break;
 		
 		case M_wait: break;
 		
@@ -59,13 +61,23 @@ int Movement_Tick(int state)
 			{
 				playerPosition = 16;
 			}
+			
+			if (keypad_value == '1' && debounce > 5)
+			{
+				restart = 1;
+				debounce = 0;
+				//keypad_value = 0;
+			}
+			
+			debounce++;
 		break;
 		
-		case M_moveRelease: break;
+		case M_moveRelease: 
+			//keypad_value = 0;
+		break;
 		
 		default: break;
 	}
-	
 	return state;
 }
 

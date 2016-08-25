@@ -16,7 +16,6 @@ int Collision_Tick(int state)
 	switch(state)
 	{
 		case C_start:
-			isHit					= 0;		
 			state = C_detect;
 		break;
 		
@@ -33,18 +32,17 @@ int Collision_Tick(int state)
 	switch(state)
 	{
 		case C_start:
+			isHit = 0;
 		break;
 			
 		case C_detect:
 			if (playerPosition == 16 && (row1[15] != 32 && row1[15] != 0))
 			{
-				isHit = 1;
-				playerIcon = 'X';
+				isHit	= 1;
 			} 
 			else if (playerPosition == 32 && (row2[15] != 32 && row2[15] != 0))
 			{
-				isHit = 1;
-				playerIcon = 'X';
+				isHit	= 1;
 			}
 
 			break;	
